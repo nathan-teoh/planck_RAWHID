@@ -20,6 +20,8 @@ keyboard.on('data', function(data) {
 	console.log(data);
 });
 
+
+
 function connectKeyboard(){
 	var devices = HID.devices();	//get all HID devices instead of connecting directly with PID and VID as some devices will have multiple HID "channels(?)"
 	var deviceInfo = devices.find( function(d) {	
