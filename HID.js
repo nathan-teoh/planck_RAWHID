@@ -1,15 +1,11 @@
-var HID = require('node-hid');
-var vid = 0x6F6C;
-var pid = 0x706C;
-var usagePage = 0xFF60;
-var usage = 0x61;
-var keyboard = null;
+var HID = require('node-hid');	//required
+var vid = 0x6F6C;	//VID for planck
+var pid = 0x706C;	//PID for planck
+var usagePage = 0xFF60;	//usagePage for planck. dumped from HID.devices()
+var usage = 0x61;	//usage for planck. dumped from HID.devices();
+var keyboard = null;	//keyboard object. null at start.
 
 
-const KEYBOARD_NAME = 'Planck'
-const KEYBOARD_USAGE_ID = 0x61
-const KEYBOARD_USAGE_PAGE = 0xff60
-const KEYBOARD_UPDATE_TIME = 1000
 
 
 
@@ -25,25 +21,14 @@ keyboard.on('data', function(data) {
 });
 
 function connectKeyboard(){
-	var devices = HID.devices();
-	var deviceInfo = devices.find( function(d) {
-    var isTeensy = d.vendorId===vid && d.productId===pid;
-    	return isTeensy && d.usagePage===usagePage && d.usage===usage;
+	var devices = HID.devices();	//get all HID devices instead of connecting directly with PID and VID as some devices will have multiple HID "channels(?)"
+	var deviceInfo = devices.find( function(d) {	
+    var isPlanck = d.vendorId===vid && d.productId===pid;	//make sure eveyrthing matches
+    	return isPlanck && d.usagePage===usagePage && d.usage===usage;	//including usage. without matching usage, i could not read or write.
 	});
 	if( deviceInfo ) {
-  		var device = new HID.HID( deviceInfo.path );
-  		keyboard = device;
+  		var device = new HID.HID( deviceInfo.path );	//create new device with matched information
+  		keyboard = device;	//assign global "keyboard" variable to newly created keyboard object.
 	}
 }
 
-
-
-// connectKeyboard();
-// keyboard.resume();
-// console.log(keyboard.write(1));
-// keyboard.on('data', function(data) {
-// 	console.log(data);
-// });
-// function connectKeyboard(){
-// 	keyboard = new HID.HID(vid,pid);
-// }
