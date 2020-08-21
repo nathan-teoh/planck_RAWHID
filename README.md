@@ -11,6 +11,10 @@ My personal project for playing around with RAWHID on my Planck keyboard. Ideall
 ## Usage
 1) Open up HID.js
 2) Modify keyboard.write() with the HSV values you desire
+3) run HID.js with 
+```shell
+node HID.js
+```
 
 ## NOTE
 1) This is in very, very early stages of development. I am not familiar with js or node in anyway.
